@@ -1,6 +1,6 @@
 # Hyperlinked C++ BNF Grammar
 
-See the [hyperlinked BNF here](http://nongnu.org/hcb/).
+See the [hyperlinked BNF here](https://alx71hub.github.io/hcb/).
 
 ## Which files are contained in this package?
 * README.md: this file
