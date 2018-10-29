@@ -1,0 +1,5213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bnf
+  version="3.2"
+  update="29-Oct-2018"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="bnf.xsd">
+
+<section id="lex.charset">
+  <rule>
+    <syntax>hex-quad</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>hexadecimal-digit</non-terminal>
+        <non-terminal>hexadecimal-digit</non-terminal>
+        <non-terminal>hexadecimal-digit</non-terminal>
+        <non-terminal>hexadecimal-digit</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>universal-character-name</syntax>
+    <sequence>
+      <alternative>
+        <terminal>\u</terminal>
+        <non-terminal>hex-quad</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>\U</terminal>
+        <non-terminal>hex-quad</non-terminal>
+        <non-terminal>hex-quad</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="lex.pptoken">
+  <rule>
+    <syntax>preprocessing-token</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>header-name</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>pp-number</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>character-literal</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>user-defined-character-literal</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>string-literal</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>user-defined-string-literal</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>preprocessing-op-or-punc</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal sentence="true">each non-white-space character that cannot be one of the above</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="lex.token">
+  <rule>
+    <syntax>token</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>keyword</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>literal</non-terminal>
+      </alternative>
+      <alternative issue="189">
+        <non-terminal>operator-token</non-terminal>
+      </alternative>
+      <alternative issue="189">
+        <non-terminal>punctuator</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="lex.header">
+  <rule>
+    <syntax>header-name</syntax>
+    <sequence>
+      <alternative>
+        <terminal>&lt;</terminal>
+        <non-terminal>h-char-sequence</non-terminal>
+        <terminal>></terminal>
+      </alternative>
+      <alternative>
+        <terminal>"</terminal>
+        <non-terminal>q-char-sequence</non-terminal>
+        <terminal>"</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>h-char-sequence</syntax>
+    <sequence>
+    <alternative>
+      <non-terminal>h-char</non-terminal>
+    </alternative>
+    <alternative>
+      <non-terminal>h-char-sequence</non-terminal>
+      <non-terminal>h-char</non-terminal>
+    </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>h-char</syntax>
+    <sequence>
+    <alternative>
+      <terminal sentence="true">any member of the source character set except new-line and ></terminal>
+    </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>q-char-sequence</syntax>
+    <sequence>
+    <alternative>
+      <non-terminal>q-char</non-terminal>
+    </alternative>
+    <alternative>
+      <non-terminal>q-char-sequence</non-terminal>
+      <non-terminal>q-char</non-terminal>
+    </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>q-char</syntax>
+    <sequence>
+    <alternative>
+      <terminal sentence="true">any member of the source character set except new-line and "</terminal>
+    </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="lex.ppnumber">
+  <rule>
+    <syntax>pp-number</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>digit</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>.</terminal>
+        <non-terminal>digit</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>pp-number</non-terminal>
+        <non-terminal>digit</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>pp-number</non-terminal>
+        <non-terminal>identifier-nondigit</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>pp-number</non-terminal>
+        <terminal>e</terminal>
+        <non-terminal>sign</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>pp-number</non-terminal>
+        <terminal>E</terminal>
+        <non-terminal>sign</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>pp-number</non-terminal>
+        <terminal>.</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="lex.name">
+  <rule>
+    <syntax>identifier</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>identifier-nondigit</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>identifier</non-terminal>
+        <non-terminal>identifier-nondigit</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>identifier</non-terminal>
+        <non-terminal>digit</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>identifier-nondigit</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>nondigit</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>universal-character-name</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal sentence="true">other implementation-defined characters</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>nondigit</syntax>
+    <sequence>
+      <alternative note="Removed in C++0x">
+        <terminal>universal-character-name</terminal>
+      </alternative>
+      <alternative>
+        <terminal>a</terminal>
+      </alternative>
+      <alternative>
+        <terminal>b</terminal>
+      </alternative>
+      <alternative>
+        <terminal>c</terminal>
+      </alternative>
+      <alternative>
+        <terminal>d</terminal>
+      </alternative>
+      <alternative>
+        <terminal>e</terminal>
+      </alternative>
+      <alternative>
+        <terminal>f</terminal>
+      </alternative>
+      <alternative>
+        <terminal>g</terminal>
+      </alternative>
+      <alternative>
+        <terminal>h</terminal>
+      </alternative>
+      <alternative>
+        <terminal>i</terminal>
+      </alternative>
+      <alternative>
+        <terminal>j</terminal>
+      </alternative>
+      <alternative>
+        <terminal>k</terminal>
+      </alternative>
+      <alternative>
+        <terminal>l</terminal>
+      </alternative>
+      <alternative>
+        <terminal>m</terminal>
+      </alternative>
+      <alternative>
+        <terminal>n</terminal>
+      </alternative>
+      <alternative>
+        <terminal>o</terminal>
+      </alternative>
+      <alternative>
+        <terminal>p</terminal>
+      </alternative>
+      <alternative>
+        <terminal>q</terminal>
+      </alternative>
+      <alternative>
+        <terminal>r</terminal>
+      </alternative>
+      <alternative>
+        <terminal>s</terminal>
+      </alternative>
+      <alternative>
+        <terminal>t</terminal>
+      </alternative>
+      <alternative>
+        <terminal>u</terminal>
+      </alternative>
+      <alternative>
+        <terminal>v</terminal>
+      </alternative>
+      <alternative>
+        <terminal>w</terminal>
+      </alternative>
+      <alternative>
+        <terminal>x</terminal>
+      </alternative>
+      <alternative>
+        <terminal>y</terminal>
+      </alternative>
+      <alternative>
+        <terminal>z</terminal>
+      </alternative>
+      <alternative>
+        <terminal>A</terminal>
+      </alternative>
+      <alternative>
+        <terminal>B</terminal>
+      </alternative>
+      <alternative>
+        <terminal>C</terminal>
+      </alternative>
+      <alternative>
+        <terminal>D</terminal>
+      </alternative>
+      <alternative>
+        <terminal>E</terminal>
+      </alternative>
+      <alternative>
+        <terminal>F</terminal>
+      </alternative>
+      <alternative>
+        <terminal>G</terminal>
+      </alternative>
+      <alternative>
+        <terminal>H</terminal>
+      </alternative>
+      <alternative>
+        <terminal>I</terminal>
+      </alternative>
+      <alternative>
+        <terminal>J</terminal>
+      </alternative>
+      <alternative>
+        <terminal>K</terminal>
+      </alternative>
+      <alternative>
+        <terminal>L</terminal>
+      </alternative>
+      <alternative>
+        <terminal>M</terminal>
+      </alternative>
+      <alternative>
+        <terminal>N</terminal>
+      </alternative>
+      <alternative>
+        <terminal>O</terminal>
+      </alternative>
+      <alternative>
+        <terminal>P</terminal>
+      </alternative>
+      <alternative>
+        <terminal>Q</terminal>
+      </alternative>
+      <alternative>
+        <terminal>R</terminal>
+      </alternative>
+      <alternative>
+        <terminal>S</terminal>
+      </alternative>
+      <alternative>
+        <terminal>T</terminal>
+      </alternative>
+      <alternative>
+        <terminal>U</terminal>
+      </alternative>
+      <alternative>
+        <terminal>V</terminal>
+      </alternative>
+      <alternative>
+        <terminal>W</terminal>
+      </alternative>
+      <alternative>
+        <terminal>X</terminal>
+      </alternative>
+      <alternative>
+        <terminal>Y</terminal>
+      </alternative>
+      <alternative>
+        <terminal>Z</terminal>
+      </alternative>
+      <alternative note="(underscore)">
+        <terminal>_</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>digit</syntax>
+    <sequence>
+      <alternative>
+        <terminal>0</terminal>
+      </alternative>
+      <alternative>
+        <terminal>1</terminal>
+      </alternative>
+      <alternative>
+        <terminal>2</terminal>
+      </alternative>
+      <alternative>
+        <terminal>3</terminal>
+      </alternative>
+      <alternative>
+        <terminal>4</terminal>
+      </alternative>
+      <alternative>
+        <terminal>5</terminal>
+      </alternative>
+      <alternative>
+        <terminal>6</terminal>
+      </alternative>
+      <alternative>
+        <terminal>7</terminal>
+      </alternative>
+      <alternative>
+        <terminal>8</terminal>
+      </alternative>
+      <alternative>
+        <terminal>9</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="lex.key">
+  <rule>
+    <syntax>keyword</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>alignas</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>alignof</terminal>
+      </alternative>
+      <alternative>
+        <terminal>asm</terminal>
+      </alternative>
+      <alternative>
+        <terminal>auto</terminal>
+      </alternative>
+      <alternative>
+        <terminal>bool</terminal>
+      </alternative>
+      <alternative>
+        <terminal>break</terminal>
+      </alternative>
+      <alternative>
+        <terminal>case</terminal>
+      </alternative>
+      <alternative>
+        <terminal>catch</terminal>
+      </alternative>
+      <alternative>
+        <terminal>char</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>char16_t</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>char32_t</terminal>
+      </alternative>
+      <alternative>
+        <terminal>class</terminal>
+      </alternative>
+      <alternative>
+        <terminal>const</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>constexpr</terminal>
+      </alternative>
+      <alternative>
+        <terminal>const_cast</terminal>
+      </alternative>
+      <alternative>
+        <terminal>continue</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>decltype</terminal>
+      </alternative>
+      <alternative>
+        <terminal>default</terminal>
+      </alternative>
+      <alternative>
+        <terminal>delete</terminal>
+      </alternative>
+      <alternative>
+        <terminal>do</terminal>
+      </alternative>
+      <alternative>
+        <terminal>double</terminal>
+      </alternative>
+      <alternative>
+        <terminal>dynamic_cast</terminal>
+      </alternative>
+      <alternative>
+        <terminal>else</terminal>
+      </alternative>
+      <alternative>
+        <terminal>enum</terminal>
+      </alternative>
+      <alternative>
+        <terminal>explicit</terminal>
+      </alternative>
+      <alternative note="C++0x - Reserved for future use">
+        <terminal>export</terminal>
+      </alternative>
+      <alternative>
+        <terminal>extern</terminal>
+      </alternative>
+      <alternative>
+        <terminal>false</terminal>
+      </alternative>
+      <alternative>
+        <terminal>float</terminal>
+      </alternative>
+      <alternative>
+        <terminal>for</terminal>
+      </alternative>
+      <alternative>
+        <terminal>friend</terminal>
+      </alternative>
+      <alternative>
+        <terminal>goto</terminal>
+      </alternative>
+      <alternative>
+        <terminal>if</terminal>
+      </alternative>
+      <alternative>
+        <terminal>inline</terminal>
+      </alternative>
+      <alternative>
+        <terminal>int</terminal>
+      </alternative>
+      <alternative>
+        <terminal>long</terminal>
+      </alternative>
+      <alternative>
+        <terminal>mutable</terminal>
+      </alternative>
+      <alternative>
+        <terminal>namespace</terminal>
+      </alternative>
+      <alternative>
+        <terminal>new</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>noexcept</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>nullptr</terminal>
+      </alternative>
+      <alternative>
+        <terminal>operator</terminal>
+      </alternative>
+      <alternative>
+        <terminal>private</terminal>
+      </alternative>
+      <alternative>
+        <terminal>protected</terminal>
+      </alternative>
+      <alternative>
+        <terminal>public</terminal>
+      </alternative>
+      <alternative>
+        <terminal>register</terminal>
+      </alternative>
+      <alternative>
+        <terminal>reinterpret_cast</terminal>
+      </alternative>
+      <alternative>
+        <terminal>return</terminal>
+      </alternative>
+      <alternative>
+        <terminal>short</terminal>
+      </alternative>
+      <alternative>
+        <terminal>signed</terminal>
+      </alternative>
+      <alternative>
+        <terminal>sizeof</terminal>
+      </alternative>
+      <alternative>
+        <terminal>static</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>static_assert</terminal>
+      </alternative>
+      <alternative>
+        <terminal>static_cast</terminal>
+      </alternative>
+      <alternative>
+        <terminal>struct</terminal>
+      </alternative>
+      <alternative>
+        <terminal>switch</terminal>
+      </alternative>
+      <alternative>
+        <terminal>template</terminal>
+      </alternative>
+      <alternative>
+        <terminal>this</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>thread_local</terminal>
+      </alternative>
+      <alternative>
+        <terminal>throw</terminal>
+      </alternative>
+      <alternative>
+        <terminal>true</terminal>
+      </alternative>
+      <alternative>
+        <terminal>try</terminal>
+      </alternative>
+      <alternative>
+        <terminal>typedef</terminal>
+      </alternative>
+      <alternative>
+        <terminal>typeid</terminal>
+      </alternative>
+      <alternative>
+        <terminal>typename</terminal>
+      </alternative>
+      <alternative>
+        <terminal>union</terminal>
+      </alternative>
+      <alternative>
+        <terminal>unsigned</terminal>
+      </alternative>
+      <alternative>
+        <terminal>using</terminal>
+      </alternative>
+      <alternative>
+        <terminal>virtual</terminal>
+      </alternative>
+      <alternative>
+        <terminal>void</terminal>
+      </alternative>
+      <alternative>
+        <terminal>volatile</terminal>
+      </alternative>
+      <alternative>
+        <terminal>wchar_t</terminal>
+      </alternative>
+      <alternative>
+        <terminal>while</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="lex.operators">
+  <rule>
+    <syntax>operator-token</syntax>
+    <sequence>
+      <alternative issue="189">
+        <terminal sentence="true">Look at preprocessing-op-or-punc below</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>punctuator</syntax>
+    <sequence>
+      <alternative issue="189">
+        <terminal sentence="true">Look at preprocessing-op-or-punc below</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>preprocessing-op-or-punc</syntax>
+    <sequence>
+      <alternative>
+        <terminal>{</terminal>
+      </alternative>
+      <alternative>
+        <terminal>}</terminal>
+      </alternative>
+      <alternative>
+        <terminal>[</terminal>
+      </alternative>
+      <alternative>
+        <terminal>]</terminal>
+      </alternative>
+      <alternative>
+        <terminal>#</terminal>
+      </alternative>
+      <alternative>
+        <terminal>##</terminal>
+      </alternative>
+      <alternative>
+        <terminal>(</terminal>
+      </alternative>
+      <alternative>
+        <terminal>)</terminal>
+      </alternative>
+      <alternative>
+        <terminal>&lt;:</terminal>
+      </alternative>
+      <alternative>
+        <terminal>:></terminal>
+      </alternative>
+      <alternative>
+        <terminal>&lt;%</terminal>
+      </alternative>
+      <alternative>
+        <terminal>%></terminal>
+      </alternative>
+      <alternative>
+        <terminal>%:</terminal>
+      </alternative>
+      <alternative>
+        <terminal>%:%:</terminal>
+      </alternative>
+      <alternative>
+        <terminal>;</terminal>
+      </alternative>
+      <alternative>
+        <terminal>:</terminal>
+      </alternative>
+      <alternative>
+        <terminal>...</terminal>
+      </alternative>
+      <alternative>
+        <terminal>new</terminal>
+      </alternative>
+      <alternative>
+        <terminal>delete</terminal>
+      </alternative>
+      <alternative>
+        <terminal>?</terminal>
+      </alternative>
+      <alternative>
+        <terminal>::</terminal>
+      </alternative>
+      <alternative>
+        <terminal>.</terminal>
+      </alternative>
+      <alternative>
+        <terminal>.*</terminal>
+      </alternative>
+      <alternative>
+        <terminal>+</terminal>
+      </alternative>
+      <alternative>
+        <terminal>-</terminal>
+      </alternative>
+      <alternative>
+        <terminal>*</terminal>
+      </alternative>
+      <alternative>
+        <terminal>/</terminal>
+      </alternative>
+      <alternative>
+        <terminal>%</terminal>
+      </alternative>
+      <alternative>
+        <terminal>^</terminal>
+      </alternative>
+      <alternative>
+        <terminal>&amp;</terminal>
+      </alternative>
+      <alternative>
+        <terminal>|</terminal>
+      </alternative>
+      <alternative>
+        <terminal>~</terminal>
+      </alternative>
+      <alternative>
+        <terminal>!</terminal>
+      </alternative>
+      <alternative>
+        <terminal>=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>&lt;</terminal>
+      </alternative>
+      <alternative>
+        <terminal>></terminal>
+      </alternative>
+      <alternative>
+        <terminal>+=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>-=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>*=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>/=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>%=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>^=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>&amp;=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>|=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>&lt;&lt;</terminal>
+      </alternative>
+      <alternative>
+        <terminal>>></terminal>
+      </alternative>
+      <alternative>
+        <terminal>&lt;&lt;=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>>>=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>==</terminal>
+      </alternative>
+      <alternative>
+        <terminal>!=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>&lt;=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>>=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>&amp;&amp;</terminal>
+      </alternative>
+      <alternative>
+        <terminal>||</terminal>
+      </alternative>
+      <alternative>
+        <terminal>++</terminal>
+      </alternative>
+      <alternative>
+        <terminal>--</terminal>
+      </alternative>
+      <alternative>
+        <terminal>,</terminal>
+      </alternative>
+      <alternative>
+        <terminal>->*</terminal>
+      </alternative>
+      <alternative>
+        <terminal>-></terminal>
+      </alternative>
+      <alternative>
+        <terminal>and</terminal>
+      </alternative>
+      <alternative>
+        <terminal>and_eq</terminal>
+      </alternative>
+      <alternative>
+        <terminal>bitand</terminal>
+      </alternative>
+      <alternative>
+        <terminal>bitor</terminal>
+      </alternative>
+      <alternative>
+        <terminal>compl</terminal>
+      </alternative>
+      <alternative>
+        <terminal>not</terminal>
+      </alternative>
+      <alternative>
+        <terminal>not_eq</terminal>
+      </alternative>
+      <alternative>
+        <terminal>or</terminal>
+      </alternative>
+      <alternative>
+        <terminal>or_eq</terminal>
+      </alternative>
+      <alternative>
+        <terminal>xor</terminal>
+      </alternative>
+      <alternative>
+        <terminal>xor_eq</terminal>
+      </alternative>
+    </sequence>
+    </rule>
+</section>
+
+<section id="lex.literal.kinds">
+  <rule>
+    <syntax>literal</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>integer-literal</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>character-literal</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>floating-literal</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>string-literal</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>boolean-literal</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>pointer-literal</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>user-defined-literal</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="lex.icon">
+  <rule>
+    <syntax>integer-literal</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>decimal-literal</non-terminal>
+        <non-terminal optional="true">integer-suffix</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>octal-literal</non-terminal>
+        <non-terminal optional="true">integer-suffix</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>hexadecimal-literal</non-terminal>
+        <non-terminal optional="true">integer-suffix</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>decimal-literal</syntax>
+    <sequence>
+    <alternative>
+      <non-terminal>nonzero-digit</non-terminal>
+    </alternative>
+    <alternative>
+      <non-terminal>decimal-literal</non-terminal>
+      <non-terminal>digit</non-terminal>
+    </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>octal-literal</syntax>
+    <sequence>
+    <alternative>
+      <terminal>0</terminal>
+    </alternative>
+    <alternative>
+      <non-terminal>octal-literal</non-terminal>
+      <non-terminal>octal-digit</non-terminal>
+    </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>hexadecimal-literal</syntax>
+    <sequence>
+      <alternative>
+        <terminal>0x</terminal>
+        <non-terminal>hexadecimal-digit</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>0X</terminal>
+        <non-terminal>hexadecimal-digit</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>hexadecimal-literal</non-terminal>
+        <non-terminal>hexadecimal-digit</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>nonzero-digit</syntax>
+    <sequence>
+      <alternative>
+        <terminal>1</terminal>
+      </alternative>
+      <alternative>
+        <terminal>2</terminal>
+      </alternative>
+      <alternative>
+        <terminal>3</terminal>
+      </alternative>
+      <alternative>
+        <terminal>4</terminal>
+      </alternative>
+      <alternative>
+        <terminal>5</terminal>
+      </alternative>
+      <alternative>
+        <terminal>6</terminal>
+      </alternative>
+      <alternative>
+        <terminal>7</terminal>
+      </alternative>
+      <alternative>
+        <terminal>8</terminal>
+      </alternative>
+      <alternative>
+        <terminal>9</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>octal-digit</syntax>
+    <sequence>
+      <alternative>
+        <terminal>0</terminal>
+      </alternative>
+      <alternative>
+        <terminal>1</terminal>
+      </alternative>
+      <alternative>
+        <terminal>2</terminal>
+      </alternative>
+      <alternative>
+        <terminal>3</terminal>
+      </alternative>
+      <alternative>
+        <terminal>4</terminal>
+      </alternative>
+      <alternative>
+        <terminal>5</terminal>
+      </alternative>
+      <alternative>
+        <terminal>6</terminal>
+      </alternative>
+      <alternative>
+        <terminal>7</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>hexadecimal-digit</syntax>
+    <sequence>
+      <alternative>
+        <terminal>0</terminal>
+      </alternative>
+      <alternative>
+        <terminal>1</terminal>
+      </alternative>
+      <alternative>
+        <terminal>2</terminal>
+      </alternative>
+      <alternative>
+        <terminal>3</terminal>
+      </alternative>
+      <alternative>
+        <terminal>4</terminal>
+      </alternative>
+      <alternative>
+        <terminal>5</terminal>
+      </alternative>
+      <alternative>
+        <terminal>6</terminal>
+      </alternative>
+      <alternative>
+        <terminal>7</terminal>
+      </alternative>
+      <alternative>
+        <terminal>8</terminal>
+      </alternative>
+      <alternative>
+        <terminal>9</terminal>
+      </alternative>
+      <alternative>
+        <terminal>a</terminal>
+      </alternative>
+      <alternative>
+        <terminal>b</terminal>
+      </alternative>
+      <alternative>
+        <terminal>c</terminal>
+      </alternative>
+      <alternative>
+        <terminal>d</terminal>
+      </alternative>
+      <alternative>
+        <terminal>e</terminal>
+      </alternative>
+      <alternative>
+        <terminal>f</terminal>
+      </alternative>
+      <alternative>
+        <terminal>A</terminal>
+      </alternative>
+      <alternative>
+        <terminal>B</terminal>
+      </alternative>
+      <alternative>
+        <terminal>C</terminal>
+      </alternative>
+      <alternative>
+        <terminal>D</terminal>
+      </alternative>
+      <alternative>
+        <terminal>E</terminal>
+      </alternative>
+      <alternative>
+        <terminal>F</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>integer-suffix</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>unsigned-suffix</non-terminal>
+        <non-terminal optional="true">long-suffix</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>unsigned-suffix</non-terminal>
+        <non-terminal optional="true">long-long-suffix</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>long-suffix</non-terminal>
+        <non-terminal optional="true">unsigned-suffix</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>long-long-suffix</non-terminal>
+        <non-terminal optional="true">unsigned-suffix</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>unsigned-suffix</syntax>
+    <sequence>
+      <alternative>
+        <terminal>u</terminal>
+      </alternative>
+      <alternative>
+        <terminal>U</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>long-suffix</syntax>
+    <sequence>
+      <alternative>
+        <terminal>l</terminal>
+      </alternative>
+      <alternative>
+        <terminal>L</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>long-long-suffix</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>ll</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>LL</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="lex.ccon">
+  <rule>
+    <syntax>character-literal</syntax>
+    <sequence>
+      <alternative>
+        <terminal>'</terminal>
+        <non-terminal>c-char-sequence</non-terminal>
+        <terminal>'</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>u</terminal>
+        <terminal>'</terminal>
+        <non-terminal>c-char-sequence</non-terminal>
+        <terminal>'</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>U</terminal>
+        <terminal>'</terminal>
+        <non-terminal>c-char-sequence</non-terminal>
+        <terminal>'</terminal>
+      </alternative>
+      <alternative>
+        <terminal>L</terminal>
+        <terminal>'</terminal>
+        <non-terminal>c-char-sequence</non-terminal>
+        <terminal>'</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>c-char-sequence</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>c-char</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>c-char-sequence</non-terminal>
+        <non-terminal>c-char</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>c-char</syntax>
+    <sequence>
+      <alternative>
+        <terminal sentence="true">any member of the source character set except the single quote ', backslash \, or new-line character</terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>escape-sequence</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>universal-character-name</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>escape-sequence</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>simple-escape-sequence</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>octal-escape-sequence</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>hexadecimal-escape-sequence</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>simple-escape-sequence</syntax>
+    <sequence>
+      <alternative>
+        <terminal>\'</terminal>
+      </alternative>
+      <alternative>
+        <terminal>\"</terminal>
+      </alternative>
+      <alternative>
+        <terminal>\?</terminal>
+      </alternative>
+      <alternative>
+        <terminal>\\</terminal>
+      </alternative>
+      <alternative>
+        <terminal>\a</terminal>
+      </alternative>
+      <alternative>
+        <terminal>\b</terminal>
+      </alternative>
+      <alternative>
+        <terminal>\f</terminal>
+      </alternative>
+      <alternative>
+        <terminal>\n</terminal>
+      </alternative>
+      <alternative>
+        <terminal>\r</terminal>
+      </alternative>
+      <alternative>
+        <terminal>\t</terminal>
+      </alternative>
+      <alternative>
+        <terminal>\v</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>octal-escape-sequence</syntax>
+    <sequence>
+      <alternative>
+        <terminal>\</terminal>
+        <non-terminal>octal-digit</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>\</terminal>
+        <non-terminal>octal-digit</non-terminal>
+        <non-terminal>octal-digit</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>\</terminal>
+        <non-terminal>octal-digit</non-terminal>
+        <non-terminal>octal-digit</non-terminal>
+        <non-terminal>octal-digit</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>hexadecimal-escape-sequence</syntax>
+    <sequence>
+      <alternative>
+        <terminal>\x</terminal>
+        <non-terminal>hexadecimal-digit</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>hexadecimal-escape-sequence</non-terminal>
+        <non-terminal>hexadecimal-digit</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="lex.fcon">
+  <rule>
+    <syntax>floating-literal</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>fractional-constant</non-terminal>
+        <non-terminal optional="true">exponent-part</non-terminal>
+        <non-terminal optional="true">floating-suffix</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>digit-sequence</non-terminal>
+        <non-terminal>exponent-part</non-terminal>
+        <non-terminal optional="true">floating-suffix</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>fractional-constant</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal optional="true">digit-sequence</non-terminal>
+        <terminal>.</terminal>
+        <non-terminal>digit-sequence</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>digit-sequence</non-terminal>
+        <terminal>.</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>exponent-part</syntax>
+    <sequence>
+      <alternative>
+        <terminal>e</terminal>
+        <non-terminal optional="true">sign</non-terminal>
+        <non-terminal>digit-sequence</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>E</terminal>
+        <non-terminal optional="true">sign</non-terminal>
+        <non-terminal>digit-sequence</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>sign</syntax>
+    <sequence>
+      <alternative>
+        <terminal>+</terminal>
+      </alternative>
+      <alternative>
+        <terminal>-</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>digit-sequence</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>digit</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>digit-sequence</non-terminal>
+        <non-terminal>digit</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>floating-suffix</syntax>
+    <sequence>
+      <alternative>
+        <terminal>f</terminal>
+      </alternative>
+      <alternative>
+        <terminal>l</terminal>
+      </alternative>
+      <alternative>
+        <terminal>F</terminal>
+      </alternative>
+      <alternative>
+        <terminal>L</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="lex.string">
+  <rule>
+    <syntax>string-literal</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal optional="true">encoding-prefix</non-terminal>
+        <terminal>"</terminal>
+        <non-terminal optional="true">s-char-sequence</non-terminal>
+        <terminal>"</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">encoding-prefix</non-terminal>
+        <terminal>R</terminal>
+        <non-terminal>raw-string</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>encoding-prefix</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>u8</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>u</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>U</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>L</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>s-char-sequence</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>s-char</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>s-char-sequence</non-terminal>
+        <non-terminal>s-char</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>s-char</syntax>
+    <sequence>
+      <alternative>
+        <terminal sentence="true">any member of the source character set except the double-quote ", backslash \, or new-line character</terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>escape-sequence</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>universal-character-name</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>raw-string</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>"</terminal>
+        <non-terminal optional="true">d-char-sequence</non-terminal>
+        <terminal>(</terminal>
+        <non-terminal optional="true">r-char-sequence</non-terminal>
+        <terminal>)</terminal>
+        <non-terminal optional="true">d-char-sequence</non-terminal>
+        <terminal>"</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>r-char-sequence</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>r-char</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>r-char-sequence</non-terminal>
+        <non-terminal>r-char</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>r-char</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal sentence="true">any member of the source character set, except a right parenthesis ) followed by the initial d-char-sequence (which may be empty) followed by a double quote ".</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>d-char-sequence</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>d-char</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>d-char-sequence</non-terminal>
+        <non-terminal>d-char</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>d-char</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal sentence="true">any member of the basic source character set, except: space, the left parenthesis (, the right parenthesis ), the backslash \, and the control characters representing horizontal tab, vertical tab, form feed, and newline.</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="lex.bool">
+  <rule>
+    <syntax>boolean-literal</syntax>
+    <sequence>
+      <alternative>
+        <terminal>false</terminal>
+      </alternative>
+      <alternative>
+        <terminal>true</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="lex.nullptr">
+  <rule>
+    <syntax>pointer-literal</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>nullptr</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="lex.ext">
+  <rule>
+    <syntax>user-defined-literal</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>user-defined-integer-literal</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>user-defined-floating-literal</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>user-defined-string-literal</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>user-defined-character-literal</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>user-defined-integer-literal</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>decimal-literal</non-terminal>
+        <non-terminal>ud-suffix</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>octal-literal</non-terminal>
+        <non-terminal>ud-suffix</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>hexadecimal-literal</non-terminal>
+        <non-terminal>ud-suffix</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>user-defined-floating-literal</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>fractional-constant</non-terminal>
+        <non-terminal optional="true">exponent-part</non-terminal>
+        <non-terminal>ud-suffix</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>digit-sequence</non-terminal>
+        <non-terminal>exponent-part</non-terminal>
+        <non-terminal>ud-suffix</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>user-defined-string-literal</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>string-literal</non-terminal>
+        <non-terminal>ud-suffix</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>user-defined-character-literal</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>character-literal</non-terminal>
+        <non-terminal>ud-suffix</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>ud-suffix</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="basic.link">
+  <rule>
+  <syntax>translation-unit</syntax>
+  <sequence>
+    <alternative>
+      <non-terminal optional="true">declaration-seq</non-terminal>
+    </alternative>
+  </sequence>
+  </rule>
+</section>
+
+<section id="expr.prim.general">
+  <rule>
+    <syntax>primary-expression</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>literal</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>this</terminal>
+      </alternative>
+      <alternative>
+        <terminal>(</terminal>
+        <non-terminal>expression</non-terminal>
+        <terminal>)</terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>id-expression</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>lambda-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>id-expression</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>unqualified-id</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>qualified-id</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>unqualified-id</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>operator-function-id</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>conversion-function-id</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>literal-operator-id</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>~</terminal>
+        <non-terminal>class-name</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>~</terminal>
+        <non-terminal>decltype-specifier</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>template-id</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>qualified-id</syntax>
+    <sequence>
+      <alternative>
+        <terminal optional="true">::</terminal>
+        <non-terminal>nested-name-specifier</non-terminal>
+        <terminal optional="true">template</terminal>
+        <non-terminal>unqualified-id</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>::</terminal>
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>::</terminal>
+        <non-terminal>operator-function-id</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>::</terminal>
+        <non-terminal>literal-operator-id</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>::</terminal>
+        <non-terminal>template-id</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>nested-name-specifier</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>type-name</non-terminal>
+        <terminal>::</terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>namespace-name</non-terminal>
+        <terminal>::</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>decltype-specifier</non-terminal>
+        <terminal>::</terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>nested-name-specifier</non-terminal>
+        <non-terminal>identifier</non-terminal>
+        <terminal>::</terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>nested-name-specifier</non-terminal>
+        <terminal optional="true">template</terminal>
+        <non-terminal>simple-template-id</non-terminal>
+        <terminal>::</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.prim.lambda">
+  <rule>
+    <syntax>lambda-expression</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>lambda-introducer</non-terminal>
+        <non-terminal optional="true">lambda-declarator</non-terminal>
+        <non-terminal>compound-statement</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>lambda-introducer</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>[</terminal>
+        <non-terminal optional="true">lambda-capture</non-terminal>
+        <terminal>]</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>lambda-capture</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>capture-default</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>capture-list</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>capture-default</non-terminal>
+        <terminal>,</terminal>
+        <non-terminal>capture-list</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>capture-default</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>&amp;</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>=</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>capture-list</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>capture</non-terminal>
+        <terminal optional="true">...</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>capture-list</non-terminal>
+        <terminal>,</terminal>
+        <non-terminal>capture</non-terminal>
+        <terminal optional="true">...</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>capture</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>&amp;</terminal>
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>this</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>lambda-declarator</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>(</terminal>
+        <non-terminal>parameter-declaration-clause</non-terminal>
+        <terminal>)</terminal>
+        <terminal optional="true">mutable</terminal>
+        <non-terminal optional="true">exception-specification</non-terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal optional="true">trailing-return-type</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.post">
+  <rule>
+  <syntax>postfix-expression</syntax>
+  <sequence>
+    <alternative>
+      <non-terminal>primary-expression</non-terminal>
+    </alternative>
+    <alternative>
+      <non-terminal>postfix-expression</non-terminal>
+      <terminal>[</terminal>
+      <non-terminal>expression</non-terminal>
+      <terminal>]</terminal>
+    </alternative>
+    <alternative note="C++0x">
+      <non-terminal>postfix-expression</non-terminal>
+      <terminal>[</terminal>
+      <non-terminal optional="true">braced-init-list</non-terminal>
+      <terminal>]</terminal>
+    </alternative>
+    <alternative>
+      <non-terminal>postfix-expression</non-terminal>
+      <terminal>(</terminal>
+      <non-terminal optional="true">expression-list</non-terminal>
+      <terminal>)</terminal>
+    </alternative>
+    <alternative>
+      <non-terminal>simple-type-specifier</non-terminal>
+      <terminal>(</terminal>
+      <non-terminal optional="true">expression-list</non-terminal>
+      <terminal>)</terminal>
+    </alternative>
+    <alternative>
+      <non-terminal>typename-specifier</non-terminal>
+      <terminal>(</terminal>
+      <non-terminal optional="true">expression-list</non-terminal>
+      <terminal>)</terminal>
+    </alternative>
+    <alternative note="C++0x">
+      <non-terminal>simple-type-specifier</non-terminal>
+      <non-terminal>braced-init-list</non-terminal>
+    </alternative>
+    <alternative note="C++0x">
+      <non-terminal>typename-specifier</non-terminal>
+      <non-terminal>braced-init-list</non-terminal>
+    </alternative>
+    <alternative>
+      <non-terminal>postfix-expression</non-terminal>
+      <terminal>.</terminal>
+      <terminal optional="true">template</terminal>
+      <non-terminal>id-expression</non-terminal>
+    </alternative>
+    <alternative>
+      <non-terminal>postfix-expression</non-terminal>
+      <terminal>-></terminal>
+      <terminal optional="true">template</terminal>
+      <non-terminal>id-expression</non-terminal>
+    </alternative>
+    <alternative>
+      <non-terminal>postfix-expression</non-terminal>
+      <terminal>.</terminal>
+      <non-terminal>pseudo-destructor-name</non-terminal>
+    </alternative>
+    <alternative>
+      <non-terminal>postfix-expression</non-terminal>
+      <terminal>-></terminal>
+      <non-terminal>pseudo-destructor-name</non-terminal>
+    </alternative>
+    <alternative>
+      <non-terminal>postfix-expression</non-terminal>
+      <terminal>++</terminal>
+    </alternative>
+    <alternative>
+      <non-terminal>postfix-expression</non-terminal>
+      <terminal>--</terminal>
+    </alternative>
+    <alternative>
+      <terminal>dynamic_cast</terminal>
+      <terminal>&lt;</terminal>
+      <non-terminal>type-id</non-terminal>
+      <terminal>></terminal>
+      <terminal>(</terminal>
+      <non-terminal>expression</non-terminal>
+      <terminal>)</terminal>
+    </alternative>
+    <alternative>
+      <terminal>static_cast</terminal>
+      <terminal>&lt;</terminal>
+      <non-terminal>type-id</non-terminal>
+      <terminal>></terminal>
+      <terminal>(</terminal>
+      <non-terminal>expression</non-terminal>
+      <terminal>)</terminal>
+    </alternative>
+    <alternative>
+      <terminal>reinterpret_cast</terminal>
+      <terminal>&lt;</terminal>
+      <non-terminal>type-id</non-terminal>
+      <terminal>></terminal>
+      <terminal>(</terminal>
+      <non-terminal>expression</non-terminal>
+      <terminal>)</terminal>
+    </alternative>
+    <alternative>
+      <terminal>const_cast</terminal>
+      <terminal>&lt;</terminal>
+      <non-terminal>type-id</non-terminal>
+      <terminal>></terminal>
+      <terminal>(</terminal>
+      <non-terminal>expression</non-terminal>
+      <terminal>)</terminal>
+    </alternative>
+    <alternative>
+      <terminal>typeid</terminal>
+      <terminal>(</terminal>
+      <non-terminal>expression</non-terminal>
+      <terminal>)</terminal>
+    </alternative>
+    <alternative>
+      <terminal>typeid</terminal>
+      <terminal>(</terminal>
+      <non-terminal>type-id</non-terminal>
+      <terminal>)</terminal>
+    </alternative>
+  </sequence>
+  </rule>
+  <rule>
+    <syntax>expression-list</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>initializer-list</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>pseudo-destructor-name</syntax>
+    <sequence>
+      <alternative>
+        <terminal optional="true">::</terminal>
+        <non-terminal optional="true">nested-name-specifier</non-terminal>
+        <non-terminal>type-name</non-terminal>
+        <terminal>::</terminal>
+        <terminal>~</terminal>
+        <non-terminal>type-name</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal optional="true">::</terminal>
+        <non-terminal>nested-name-specifier</non-terminal>
+        <terminal>template</terminal>
+        <non-terminal>simple-template-id</non-terminal>
+        <terminal>::</terminal>
+        <terminal>~</terminal>
+        <non-terminal>type-name</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal optional="true">::</terminal>
+        <non-terminal optional="true">nested-name-specifier</non-terminal>
+        <terminal>~</terminal>
+        <non-terminal>type-name</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>~</terminal>
+        <non-terminal>decltype-specifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.unary">
+  <rule>
+    <syntax>unary-expression</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>postfix-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>++</terminal>
+        <non-terminal>cast-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>--</terminal>
+        <non-terminal>cast-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>unary-operator</non-terminal>
+        <non-terminal>cast-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>sizeof</terminal>
+        <non-terminal>unary-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>sizeof</terminal>
+        <terminal>(</terminal>
+        <non-terminal>type-id</non-terminal>
+        <terminal>)</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>sizeof</terminal>
+        <terminal>...</terminal>
+        <terminal>(</terminal>
+        <non-terminal>identifier</non-terminal>
+        <terminal>)</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>alignof</terminal>
+        <terminal>(</terminal>
+        <non-terminal>type-id</non-terminal>
+        <terminal>)</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>noexcept-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>new-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>delete-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>unary-operator</syntax>
+    <sequence>
+      <alternative>
+        <terminal>*</terminal>
+      </alternative>
+      <alternative>
+        <terminal>&amp;</terminal>
+      </alternative>
+      <alternative>
+        <terminal>+</terminal>
+      </alternative>
+      <alternative>
+        <terminal>-</terminal>
+      </alternative>
+      <alternative>
+        <terminal>!</terminal>
+      </alternative>
+      <alternative>
+        <terminal>~</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.new">
+  <rule>
+    <syntax>new-expression</syntax>
+    <sequence>
+      <alternative>
+        <terminal optional="true">::</terminal>
+        <terminal>new</terminal>
+        <non-terminal optional="true">new-placement</non-terminal>
+        <non-terminal>new-type-id</non-terminal>
+        <non-terminal optional="true">new-initializer</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal optional="true">::</terminal>
+        <terminal>new</terminal>
+        <non-terminal optional="true">new-placement</non-terminal>
+        <terminal>(</terminal>
+        <non-terminal>type-id</non-terminal>
+        <terminal>)</terminal>
+        <non-terminal optional="true">new-initializer</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>new-placement</syntax>
+    <sequence>
+      <alternative>
+      <terminal>(</terminal>
+      <non-terminal>expression-list</non-terminal>
+      <terminal>)</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>new-type-id</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>type-specifier-seq</non-terminal>
+        <non-terminal optional="true">new-declarator</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>new-declarator</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>ptr-operator</non-terminal>
+        <non-terminal optional="true">new-declarator</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>noptr-new-declarator</non-terminal>
+      </alternative>
+    </sequence>
+    </rule>
+  <rule>
+    <syntax>noptr-new-declarator</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>[</terminal>
+        <non-terminal>expression</non-terminal>
+        <terminal>]</terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>noptr-new-declarator</non-terminal>
+        <terminal>[</terminal>
+        <non-terminal>constant-expression</non-terminal>
+        <terminal>]</terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>new-initializer</syntax>
+    <sequence>
+      <alternative>
+        <terminal>(</terminal>
+        <non-terminal optional="true">expression-list</non-terminal>
+        <terminal>)</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>braced-init-list</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.delete">
+  <rule>
+    <syntax>delete-expression</syntax>
+    <sequence>
+      <alternative>
+        <terminal optional="true">::</terminal>
+        <terminal>delete</terminal>
+        <non-terminal>cast-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal optional="true">::</terminal>
+        <terminal>delete</terminal>
+        <terminal>[</terminal>
+        <terminal>]</terminal>
+        <non-terminal>cast-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.unary.noexcept">
+  <rule>
+    <syntax>noexcept-expression</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>noexcept</terminal>
+        <terminal>(</terminal>
+        <non-terminal>expression</non-terminal>
+        <terminal>)</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.cast">
+  <rule>
+    <syntax>cast-expression</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>unary-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>(</terminal>
+        <non-terminal>type-id</non-terminal>
+        <terminal>)</terminal>
+        <non-terminal>cast-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.mptr.oper">
+  <rule>
+    <syntax>pm-expression</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>cast-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>pm-expression</non-terminal>
+        <terminal>.*</terminal>
+        <non-terminal>cast-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>pm-expression</non-terminal>
+        <terminal>->*</terminal>
+        <non-terminal>cast-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.mul">
+  <rule>
+    <syntax>multiplicative-expression</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>pm-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>multiplicative-expression</non-terminal>
+        <terminal>*</terminal>
+        <non-terminal>pm-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>multiplicative-expression</non-terminal>
+        <terminal>/</terminal>
+        <non-terminal>pm-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>multiplicative-expression</non-terminal>
+        <terminal>%</terminal>
+        <non-terminal>pm-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.add">
+  <rule>
+    <syntax>additive-expression</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>multiplicative-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>additive-expression</non-terminal>
+        <terminal>+</terminal>
+        <non-terminal>multiplicative-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>additive-expression</non-terminal>
+        <terminal>-</terminal>
+        <non-terminal>multiplicative-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.shift">
+  <rule>
+    <syntax>shift-expression</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>additive-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>shift-expression</non-terminal>
+        <terminal>&lt;&lt;</terminal>
+        <non-terminal>additive-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>shift-expression</non-terminal>
+        <terminal>>></terminal>
+        <non-terminal>additive-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.rel">
+  <rule>
+    <syntax>relational-expression</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>shift-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>relational-expression</non-terminal>
+        <terminal>&lt;</terminal>
+        <non-terminal>shift-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>relational-expression</non-terminal>
+        <terminal>></terminal>
+        <non-terminal>shift-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>relational-expression</non-terminal>
+        <terminal>&lt;=</terminal>
+        <non-terminal>shift-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>relational-expression</non-terminal>
+        <terminal>>=</terminal>
+        <non-terminal>shift-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.eq">
+  <rule>
+    <syntax>equality-expression</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>relational-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>equality-expression</non-terminal>
+        <terminal>==</terminal>
+        <non-terminal>relational-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>equality-expression</non-terminal>
+        <terminal>!=</terminal>
+        <non-terminal>relational-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.bit.and">
+  <rule>
+    <syntax>and-expression</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>equality-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>and-expression</non-terminal>
+        <terminal>&amp;</terminal>
+        <non-terminal>equality-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.xor">
+  <rule>
+    <syntax>exclusive-or-expression</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>and-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>exclusive-or-expression</non-terminal>
+        <terminal>^</terminal>
+        <non-terminal>and-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.or">
+  <rule>
+    <syntax>inclusive-or-expression</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>exclusive-or-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>inclusive-or-expression</non-terminal>
+        <terminal>|</terminal>
+        <non-terminal>exclusive-or-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.log.and">
+  <rule>
+    <syntax>logical-and-expression</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>inclusive-or-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>logical-and-expression</non-terminal>
+        <terminal>&amp;&amp;</terminal>
+        <non-terminal>inclusive-or-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.log.or">
+  <rule>
+    <syntax>logical-or-expression</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>logical-and-expression</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>logical-or-expression</non-terminal>
+        <terminal>||</terminal>
+        <non-terminal>logical-and-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.cond">
+  <rule>
+  <syntax>conditional-expression</syntax>
+  <sequence>
+    <alternative>
+      <non-terminal>logical-or-expression</non-terminal>
+    </alternative>
+    <alternative>
+      <non-terminal>logical-or-expression</non-terminal>
+      <terminal>?</terminal>
+      <non-terminal>expression</non-terminal>
+      <terminal>:</terminal>
+      <non-terminal>assignment-expression</non-terminal>
+    </alternative>
+  </sequence>
+  </rule>
+</section>
+
+<section id="expr.ass">
+  <rule>
+    <syntax>assignment-expression</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>conditional-expression</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>logical-or-expression</non-terminal>
+        <non-terminal>assignment-operator</non-terminal>
+        <non-terminal>initializer-clause</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>throw-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>assignment-operator</syntax>
+    <sequence>
+      <alternative>
+        <terminal>=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>*=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>/=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>%=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>+=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>-=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>>>=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>&lt;&lt;=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>&amp;=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>^=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>|=</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="expr.comma">
+  <rule>
+  <syntax>expression</syntax>
+  <sequence>
+    <alternative>
+      <non-terminal>assignment-expression</non-terminal>
+    </alternative>
+    <alternative>
+      <non-terminal>expression</non-terminal>
+      <terminal>,</terminal>
+      <non-terminal>assignment-expression</non-terminal>
+    </alternative>
+  </sequence>
+  </rule>
+</section>
+
+<section id="expr.const">
+  <rule>
+    <syntax>constant-expression</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>conditional-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="stmt.stmt">
+  <rule>
+    <syntax>statement</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>labeled-statement</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>expression-statement</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>compound-statement</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>selection-statement</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>iteration-statement</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>jump-statement</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>declaration-statement</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>try-block</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="stmt.label">
+  <rule>
+    <syntax>labeled-statement</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>identifier</non-terminal>
+        <terminal>:</terminal>
+        <non-terminal>statement</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <terminal>case</terminal>
+        <non-terminal>constant-expression</non-terminal>
+        <terminal>:</terminal>
+        <non-terminal>statement</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <terminal>default</terminal>
+        <terminal>:</terminal>
+        <non-terminal>statement</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="stmt.expr">
+  <rule>
+    <syntax>expression-statement</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal optional="true">expression</non-terminal>
+        <terminal>;</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="stmt.block">
+  <rule>
+    <syntax>compound-statement</syntax>
+    <sequence>
+      <alternative>
+        <terminal>{</terminal>
+        <non-terminal optional="true">statement-seq</non-terminal>
+        <terminal>}</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>statement-seq</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>statement</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>statement-seq</non-terminal>
+        <non-terminal>statement</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="stmt.select">
+  <rule>
+    <syntax>selection-statement</syntax>
+    <sequence>
+      <alternative>
+        <terminal>if</terminal>
+        <terminal>(</terminal>
+        <non-terminal>condition</non-terminal>
+        <terminal>)</terminal>
+        <non-terminal>statement</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>if</terminal>
+        <terminal>(</terminal>
+        <non-terminal>condition</non-terminal>
+        <terminal>)</terminal>
+        <non-terminal>statement</non-terminal>
+        <terminal>else</terminal>
+        <non-terminal>statement</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>switch</terminal>
+        <terminal>(</terminal>
+        <non-terminal>condition</non-terminal>
+        <terminal>)</terminal>
+        <non-terminal>statement</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>condition</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>expression</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>decl-specifier-seq</non-terminal>
+        <non-terminal>declarator</non-terminal>
+        <terminal>=</terminal>
+        <non-terminal>initializer-clause</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>decl-specifier-seq</non-terminal>
+        <non-terminal>declarator</non-terminal>
+        <non-terminal>braced-init-list</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="stmt.iter">
+  <rule>
+    <syntax>iteration-statement</syntax>
+    <sequence>
+      <alternative>
+        <terminal>while</terminal>
+        <terminal>(</terminal>
+        <non-terminal>condition</non-terminal>
+        <terminal>)</terminal>
+        <non-terminal>statement</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>do</terminal>
+        <non-terminal>statement</non-terminal>
+        <terminal>while</terminal>
+        <terminal>(</terminal>
+        <non-terminal>expression</non-terminal>
+        <terminal>)</terminal>
+        <terminal>;</terminal>
+      </alternative>
+      <alternative>
+        <terminal>for</terminal>
+        <terminal>(</terminal>
+        <non-terminal>for-init-statement</non-terminal>
+        <non-terminal optional="true">condition</non-terminal>
+        <terminal>;</terminal>
+        <non-terminal optional="true">expression</non-terminal>
+        <terminal>)</terminal>
+        <non-terminal>statement</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>for</terminal>
+        <terminal>(</terminal>
+        <non-terminal>for-range-declaration</non-terminal>
+        <terminal>:</terminal>
+        <non-terminal>for-range-initializer</non-terminal>
+        <terminal>)</terminal>
+        <non-terminal>statement</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>for-init-statement</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>expression-statement</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>simple-declaration</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>for-range-declaration</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>type-specifier-seq</non-terminal>
+        <non-terminal>declarator</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>for-range-initializer</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>expression</non-terminal>
+        <non-terminal>braced-init-list</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="stmt.jump">
+  <rule>
+    <syntax>jump-statement</syntax>
+    <sequence>
+      <alternative>
+        <terminal>break</terminal>
+        <terminal>;</terminal>
+      </alternative>
+      <alternative>
+        <terminal>continue</terminal>
+        <terminal>;</terminal>
+      </alternative>
+      <alternative>
+        <terminal>return</terminal>
+        <non-terminal optional="true">expression</non-terminal>
+        <terminal>;</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>return</terminal>
+        <non-terminal optional="true">braced-init-list</non-terminal>
+        <terminal>;</terminal>
+      </alternative>
+      <alternative>
+        <terminal>goto</terminal>
+        <non-terminal>identifier</non-terminal>
+        <terminal>;</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="stmt.dcl">
+  <rule>
+    <syntax>declaration-statement</syntax>
+    <sequence>
+    <alternative>
+      <non-terminal>block-declaration</non-terminal>
+    </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="dcl.dcl">
+  <rule>
+    <syntax>declaration-seq</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>declaration</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>declaration-seq</non-terminal>
+        <non-terminal>declaration</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>declaration</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>block-declaration</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>function-definition</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>template-declaration</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>explicit-instantiation</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>explicit-specialization</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>linkage-specification</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>namespace-definition</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>empty-declaration</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>attribute-declaration</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>block-declaration</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>simple-declaration</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>asm-definition</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>namespace-alias-definition</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>using-declaration</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>using-directive</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>static_assert-declaration</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>alias-declaration</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>opaque-enum-declaration</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>alias-declaration</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>using</terminal>
+        <non-terminal>identifier</non-terminal>
+        <terminal>=</terminal>
+        <non-terminal>type-id</non-terminal>
+        <terminal>;</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>simple-declaration</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal optional="true">decl-specifier-seq</non-terminal>
+        <non-terminal optional="true">init-declarator-list</non-terminal>
+        <terminal>;</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>static_assert-declaration</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>static_assert</terminal>
+        <terminal>(</terminal>
+        <non-terminal>constant-expression</non-terminal>
+        <terminal>,</terminal>
+        <non-terminal>string-literal</non-terminal>
+        <terminal>)</terminal>
+        <terminal>;</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>empty-declaration</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>;</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>attribute-declaration</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>attribute-specifier-seq</non-terminal>
+        <terminal>;</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="dcl.spec">
+  <rule>
+    <syntax>decl-specifier</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>storage-class-specifier</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>type-specifier</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>function-specifier</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>friend</terminal>
+      </alternative>
+      <alternative>
+        <terminal>typedef</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>constexpr</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>decl-specifier-seq</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>decl-specifier</non-terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>decl-specifier</non-terminal>
+        <non-terminal>decl-specifier-seq</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="dcl.stc">
+  <rule>
+  <syntax>storage-class-specifier</syntax>
+  <sequence>
+    <alternative note="Removed in C++0x">
+      <terminal>auto</terminal>
+    </alternative>
+    <alternative>
+      <terminal>register</terminal>
+    </alternative>
+    <alternative>
+      <terminal>static</terminal>
+    </alternative>
+    <alternative note="C++0x">
+      <terminal>thread_local</terminal>
+    </alternative>
+    <alternative>
+      <terminal>extern</terminal>
+    </alternative>
+    <alternative>
+      <terminal>mutable</terminal>
+    </alternative>
+  </sequence>
+  </rule>
+</section>
+
+<section id="dcl.fct.spec">
+  <rule>
+    <syntax>function-specifier</syntax>
+    <sequence>
+      <alternative>
+        <terminal>inline</terminal>
+      </alternative>
+      <alternative>
+        <terminal>virtual</terminal>
+      </alternative>
+      <alternative>
+        <terminal>explicit</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="dcl.typedef">
+  <rule>
+    <syntax>typedef-name</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="dcl.type">
+  <rule>
+    <syntax>type-specifier</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>trailing-type-specifier</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>class-specifier</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>enum-specifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>trailing-type-specifier</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>simple-type-specifier</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>elaborated-type-specifier</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>typename-specifier</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>cv-qualifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>type-specifier-seq</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>type-specifier</non-terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>type-specifier</non-terminal>
+        <non-terminal>type-specifier-seq</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>trailing-type-specifier-seq</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>trailing-type-specifier</non-terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>trailing-type-specifier</non-terminal>
+        <non-terminal>trailing-type-specifier-seq</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="dct.type.simple">
+  <rule>
+    <syntax>simple-type-specifier</syntax>
+    <sequence>
+      <alternative>
+        <terminal optional="true">::</terminal>
+        <non-terminal optional="true">nested-name-specifier</non-terminal>
+        <non-terminal>type-name</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal optional="true">::</terminal>
+        <non-terminal>nested-name-specifier</non-terminal>
+        <terminal>template</terminal>
+        <non-terminal>simple-template-id</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>char</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>char16_t</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>char32_t</terminal>
+      </alternative>
+      <alternative>
+        <terminal>wchar_t</terminal>
+      </alternative>
+      <alternative>
+        <terminal>bool</terminal>
+      </alternative>
+      <alternative>
+        <terminal>short</terminal>
+      </alternative>
+      <alternative>
+        <terminal>int</terminal>
+      </alternative>
+      <alternative>
+        <terminal>long</terminal>
+      </alternative>
+      <alternative>
+        <terminal>signed</terminal>
+      </alternative>
+      <alternative>
+        <terminal>unsigned</terminal>
+      </alternative>
+      <alternative>
+        <terminal>float</terminal>
+      </alternative>
+      <alternative>
+        <terminal>double</terminal>
+      </alternative>
+      <alternative>
+        <terminal>void</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>auto</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>decltype-specifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>type-name</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>class-name</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>enum-name</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>typedef-name</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>simple-template-id</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>decltype-specifier</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>decltype</terminal>
+        <terminal>(</terminal>
+        <non-terminal>expression</non-terminal>
+        <terminal>)</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="dcl.type.elab">
+  <rule>
+  <syntax>elaborated-type-specifier</syntax>
+  <sequence>
+    <alternative>
+      <non-terminal>class-key</non-terminal>
+      <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+      <terminal optional="true">::</terminal>
+      <non-terminal optional="true">nested-name-specifier</non-terminal>
+      <non-terminal>identifier</non-terminal>
+    </alternative>
+    <alternative>
+      <non-terminal>class-key</non-terminal>
+      <terminal optional="true">::</terminal>
+      <non-terminal optional="true">nested-name-specifier</non-terminal>
+      <terminal optional="true">template</terminal>
+      <non-terminal>simple-template-id</non-terminal>
+    </alternative>
+    <alternative>
+      <terminal>enum</terminal>
+      <terminal optional="true">::</terminal>
+      <non-terminal optional="true">nested-name-specifier</non-terminal>
+      <non-terminal>identifier</non-terminal>
+    </alternative>
+  </sequence>
+  </rule>
+</section>
+
+<section id="dcl.enum">
+  <rule>
+    <syntax>enum-name</syntax>
+    <sequence>
+      <alternative>
+      <non-terminal>identifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>enum-specifier</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>enum-head</non-terminal>
+        <terminal>{</terminal>
+        <non-terminal optional="true">enumerator-list</non-terminal>
+        <terminal>}</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>enum-head</non-terminal>
+        <terminal>{</terminal>
+        <non-terminal>enumerator-list</non-terminal>
+        <terminal>,</terminal>
+        <terminal>}</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>enum-head</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>enum-key</non-terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal optional="true">identifier</non-terminal>
+        <non-terminal optional="true">enum-base</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>enum-key</non-terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>nested-name-specifier</non-terminal>
+        <non-terminal>identifier</non-terminal>
+        <non-terminal optional="true">enum-base</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>opaque-enum-declaration</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>enum-key</non-terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>identifier</non-terminal>
+        <non-terminal optional="true">enum-base</non-terminal>
+        <terminal>;</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>enum-key</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>enum</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>enum</terminal>
+        <terminal>class</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>enum</terminal>
+        <terminal>struct</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>enum-base</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>:</terminal>
+        <non-terminal>type-specifier-seq</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>enumerator-list</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>enumerator-definition</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>enumerator-list</non-terminal>
+        <terminal>,</terminal>
+        <non-terminal>enumerator-definition</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>enumerator-definition</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>enumerator</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>enumerator</non-terminal>
+        <terminal>=</terminal>
+        <non-terminal>constant-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>enumerator</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="namespace.def">
+  <rule>
+    <syntax>namespace-name</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>original-namespace-name</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>namespace-alias</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>original-namespace-name</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>namespace-definition</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>named-namespace-definition</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>unnamed-namespace-definition</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>named-namespace-definition</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>original-namespace-definition</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>extension-namespace-definition</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>original-namespace-definition</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal optional="true">inline</terminal>
+        <terminal>namespace</terminal>
+        <non-terminal>identifier</non-terminal>
+        <terminal>{</terminal>
+        <non-terminal>namespace-body</non-terminal>
+        <terminal>}</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>extension-namespace-definition</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal optional="true">inline</terminal>
+        <terminal>namespace</terminal>
+        <non-terminal>original-namespace-name</non-terminal>
+        <terminal>{</terminal>
+        <non-terminal>namespace-body</non-terminal>
+        <terminal>}</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>unnamed-namespace-definition</syntax>
+    <sequence>
+      <alternative>
+        <terminal optional="true">inline</terminal>
+        <terminal>namespace</terminal>
+        <terminal>{</terminal>
+        <non-terminal>namespace-body</non-terminal>
+        <terminal>}</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>namespace-body</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal optional="true">declaration-seq</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="namespace.alias">
+  <rule>
+    <syntax>namespace-alias</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>namespace-alias-definition</syntax>
+    <sequence>
+      <alternative>
+        <terminal>namespace</terminal>
+        <non-terminal>identifier</non-terminal>
+        <terminal>=</terminal>
+        <non-terminal>qualified-namespace-specifier</non-terminal>
+        <terminal>;</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>qualified-namespace-specifier</syntax>
+    <sequence>
+      <alternative>
+        <terminal optional="true">::</terminal>
+        <non-terminal optional="true">nested-name-specifier</non-terminal>
+        <non-terminal>namespace-name</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="namespace.udecl">
+  <rule>
+    <syntax>using-declaration</syntax>
+    <sequence>
+      <alternative>
+        <terminal>using</terminal>
+        <terminal optional="true">typename</terminal>
+        <terminal optional="true">::</terminal>
+        <non-terminal>nested-name-specifier</non-terminal>
+        <non-terminal>unqualified-id</non-terminal>
+        <terminal>;</terminal>
+      </alternative>
+      <alternative>
+        <terminal>using</terminal>
+        <terminal>::</terminal>
+        <non-terminal>unqualified-id</non-terminal>
+        <terminal>;</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="namespace.udir">
+  <rule>
+    <syntax>using-directive</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <terminal>using</terminal>
+        <terminal>namespace</terminal>
+        <terminal optional="true">::</terminal>
+        <non-terminal optional="true">nested-name-specifier</non-terminal>
+        <non-terminal>namespace-name</non-terminal>
+        <terminal>;</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="dcl.asm">
+  <rule>
+    <syntax>asm-definition</syntax>
+    <sequence>
+      <alternative>
+        <terminal>asm</terminal>
+        <terminal>(</terminal>
+        <non-terminal>string-literal</non-terminal>
+        <terminal>)</terminal>
+        <terminal>;</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="dcl.link">
+  <rule>
+    <syntax>linkage-specification</syntax>
+    <sequence>
+      <alternative>
+        <terminal>extern</terminal>
+        <non-terminal>string-literal</non-terminal>
+        <terminal>{</terminal>
+        <non-terminal optional="true">declaration-seq</non-terminal>
+        <terminal>}</terminal>
+      </alternative>
+      <alternative>
+        <terminal>extern</terminal>
+        <non-terminal>string-literal</non-terminal>
+        <non-terminal>declaration</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="dcl.attr.grammar">
+  <rule>
+    <syntax>attribute-specifier-seq</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>attribute-specifier</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>attribute-specifier-seq</non-terminal>
+        <non-terminal>attribute-specifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>attribute-specifier</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>[</terminal>
+        <terminal>[</terminal>
+        <non-terminal>attribute-list</non-terminal>
+        <terminal>]</terminal>
+        <terminal>]</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>alignment-specifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>alignment-specifier</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>alignas</terminal>
+        <terminal>(</terminal>
+        <non-terminal>type-id</non-terminal>
+        <terminal optional="true">...</terminal>
+        <terminal>)</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>alignas</terminal>
+        <terminal>(</terminal>
+        <non-terminal>alignment-expression</non-terminal>
+        <terminal optional="true">...</terminal>
+        <terminal>)</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>attribute-list</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>attribute-list</non-terminal>
+        <terminal>,</terminal>
+        <non-terminal optional="true">attribute</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>attribute</non-terminal>
+        <terminal>...</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>attribute-list</non-terminal>
+        <terminal>,</terminal>
+        <non-terminal>attribute</non-terminal>
+        <terminal>...</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>attribute</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>attribute-token</non-terminal>
+        <non-terminal optional="true">attribute-argument-clause</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>attribute-token</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>attribute-scoped-token</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>attribute-scoped-token</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>attribute-namespace</non-terminal>
+        <terminal>::</terminal>
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>attribute-namespace</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>attribute-argument-clause</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>(</terminal>
+        <non-terminal>balanced-token-seq</non-terminal>
+        <terminal>)</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>balanced-token-seq</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>balanced-token</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>balanced-token-seq</non-terminal>
+        <non-terminal>balanced-token</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>balanced-token</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>(</terminal>
+        <non-terminal>balanced-token-seq</non-terminal>
+        <terminal>)</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>[</terminal>
+        <non-terminal>balanced-token-seq</non-terminal>
+        <terminal>]</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>{</terminal>
+        <non-terminal>balanced-token-seq</non-terminal>
+        <terminal>}</terminal>
+      </alternative>
+      <alternative note="C++0x - except a parenthesis, a bracket, or a brace">
+        <non-terminal>token</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="dcl.decl">
+  <rule>
+    <syntax>init-declarator-list</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>init-declarator</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>init-declarator-list</non-terminal>
+        <terminal>,</terminal>
+        <non-terminal>init-declarator</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>init-declarator</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>declarator</non-terminal>
+        <non-terminal optional="true">initializer</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>declarator</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>ptr-declarator</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>noptr-declarator</non-terminal>
+        <non-terminal>parameters-and-qualifiers</non-terminal>
+        <non-terminal>trailing-return-type</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>ptr-declarator</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>noptr-declarator</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>ptr-operator</non-terminal>
+        <non-terminal>ptr-declarator</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>noptr-declarator</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>declarator-id</non-terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>noptr-declarator</non-terminal>
+        <non-terminal>parameters-and-qualifiers</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>noptr-declarator</non-terminal>
+        <terminal>[</terminal>
+        <non-terminal optional="true">constant-expression</non-terminal>
+        <terminal>]</terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>(</terminal>
+        <non-terminal>ptr-declarator</non-terminal>
+        <terminal>)</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>parameters-and-qualifiers</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>(</terminal>
+        <non-terminal>parameter-declaration-clause</non-terminal>
+        <terminal>)</terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal optional="true">cv-qualifier-seq</non-terminal>
+        <non-terminal optional="true">ref-qualifier</non-terminal>
+        <non-terminal optional="true">exception-specification</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>trailing-return-type</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>-></terminal>
+        <non-terminal>trailing-type-specifier-seq</non-terminal>
+        <non-terminal optional="true">abstract-declarator</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>ptr-operator</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>*</terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal optional="true">cv-qualifier-seq</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>&amp;</terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>&amp;&amp;</terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal optional="true">::</terminal>
+        <non-terminal>nested-name-specifier</non-terminal>
+        <terminal>*</terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal optional="true">cv-qualifier-seq</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>cv-qualifier-seq</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>cv-qualifier</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>cv-qualifier</non-terminal>
+        <non-terminal>cv-qualifier-seq</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>cv-qualifier</syntax>
+    <sequence>
+      <alternative>
+        <terminal>const</terminal>
+      </alternative>
+      <alternative>
+        <terminal>volatile</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>ref-qualifier</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>&amp;</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>&amp;&amp;</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>declarator-id</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal optional="true">...</terminal>
+        <non-terminal>id-expression</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal optional="true">::</terminal>
+        <non-terminal optional="true">nested-name-specifier</non-terminal>
+        <non-terminal>class-name</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="dcl.name">
+  <rule>
+    <syntax>type-id</syntax>
+    <sequence>
+      <alternative>
+      <non-terminal>type-specifier-seq</non-terminal>
+      <non-terminal optional="true">abstract-declarator</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>abstract-declarator</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>ptr-abstract-declarator</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">noptr-abstract-declarator</non-terminal>
+        <non-terminal>parameters-and-qualifiers</non-terminal>
+        <non-terminal>trailing-return-type</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>...</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>ptr-abstract-declarator</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>noptr-abstract-declarator</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+      <non-terminal>ptr-operator</non-terminal>
+      <non-terminal optional="true">ptr-abstract-declarator</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>noptr-abstract-declarator</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal optional="true">noptr-abstract-declarator</non-terminal>
+        <non-terminal>parameters-and-qualifiers</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">noptr-abstract-declarator</non-terminal>
+        <terminal>[</terminal>
+        <non-terminal>constant-expression</non-terminal>
+        <terminal>]</terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>(</terminal>
+        <non-terminal>ptr-abstract-declarator</non-terminal>
+        <terminal>)</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="dcl.fct">
+  <rule>
+    <syntax>parameter-declaration-clause</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal optional="true">parameter-declaration-list</non-terminal>
+        <terminal optional="true">...</terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>parameter-declaration-list</non-terminal>
+        <terminal>,</terminal>
+        <terminal>...</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>parameter-declaration-list</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>parameter-declaration</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>parameter-declaration-list</non-terminal>
+        <terminal>,</terminal>
+        <non-terminal>parameter-declaration</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>parameter-declaration</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>decl-specifier-seq</non-terminal>
+        <non-terminal>declarator</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>decl-specifier-seq</non-terminal>
+        <non-terminal>declarator</non-terminal>
+        <terminal>=</terminal>
+        <non-terminal>initializer-clause</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>decl-specifier-seq</non-terminal>
+        <non-terminal optional="true">abstract-declarator</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>decl-specifier-seq</non-terminal>
+        <non-terminal optional="true">abstract-declarator</non-terminal>
+        <terminal>=</terminal>
+        <non-terminal>initializer-clause</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="dcl.fct.def.general">
+  <rule>
+    <syntax>function-definition</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal optional="true">decl-specifier-seq</non-terminal>
+        <non-terminal>declarator</non-terminal>
+        <non-terminal>function-body</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal optional="true">decl-specifier-seq</non-terminal>
+        <non-terminal>declarator</non-terminal>
+        <terminal>=</terminal>
+        <terminal>default</terminal>
+        <terminal>;</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal optional="true">decl-specifier-seq</non-terminal>
+        <non-terminal>declarator</non-terminal>
+        <terminal>=</terminal>
+        <terminal>delete</terminal>
+        <terminal>;</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>function-body</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal optional="true">ctor-initializer</non-terminal>
+        <non-terminal>compound-statement</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>function-try-block</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="dcl.init">
+  <rule>
+    <syntax>initializer</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>brace-or-equal-initializer</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>(</terminal>
+        <non-terminal>expression-list</non-terminal>
+        <terminal>)</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>brace-or-equal-initializer</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>=</terminal>
+        <non-terminal>initializer-clause</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>braced-init-list</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>initializer-clause</syntax>
+    <sequence>
+    <alternative note="C++0x">
+      <non-terminal>assignment-expression</non-terminal>
+    </alternative>
+    <alternative note="C++0x">
+      <non-terminal>braced-init-list</non-terminal>
+    </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>initializer-list</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>initializer-clause</non-terminal>
+        <terminal optional="true">...</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>initializer-list</non-terminal>
+        <terminal>,</terminal>
+        <non-terminal>initializer-clause</non-terminal>
+        <terminal optional="true">...</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>braced-init-list</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>{</terminal>
+        <non-terminal>initializer-list</non-terminal>
+        <terminal optional="true">,</terminal>
+        <terminal>}</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>{</terminal>
+        <terminal>}</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="class">
+  <rule>
+    <syntax>class-name</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+      <non-terminal>simple-template-id</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>class-specifier</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>class-head</non-terminal>
+        <terminal>{</terminal>
+        <non-terminal optional="true">member-specification</non-terminal>
+        <terminal>}</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>class-head</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>class-key</non-terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>class-head-name</non-terminal>
+        <non-terminal optional="true">class-virt-specifier-seq</non-terminal>
+        <non-terminal optional="true">base-clause</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>class-key</non-terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal optional="true">base-clause</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>class-head-name</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal optional="true">nested-name-specifier</non-terminal>
+        <non-terminal>class-name</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>class-virt-specifier-seq</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>class-virt-specifier</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>class-virt-specifier-seq</non-terminal>
+        <non-terminal>class-virt-specifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>class-virt-specifier</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>final</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>explicit</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>class-key</syntax>
+    <sequence>
+      <alternative>
+        <terminal>class</terminal>
+      </alternative>
+      <alternative>
+        <terminal>struct</terminal>
+      </alternative>
+      <alternative>
+        <terminal>union</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="class.mem">
+  <rule>
+    <syntax>member-specification</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>member-declaration</non-terminal>
+        <non-terminal optional="true">member-specification</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>access-specifier</non-terminal>
+        <terminal>:</terminal>
+        <non-terminal optional="true">member-specification</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>member-declaration</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal optional="true">decl-specifier-seq</non-terminal>
+        <non-terminal optional="true">member-declarator-list</non-terminal>
+        <terminal>;</terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>function-definition</non-terminal>
+        <terminal optional="true">;</terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>using-declaration</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>static_assert-declaration</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>template-declaration</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>alias-declaration</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>member-declarator-list</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>member-declarator</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>member-declarator-list</non-terminal>
+        <terminal>,</terminal>
+        <non-terminal>member-declarator</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>member-declarator</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>declarator</non-terminal>
+        <non-terminal optional="true">virt-specifier-seq</non-terminal>
+        <non-terminal optional="true">pure-specifier</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>declarator</non-terminal>
+        <non-terminal optional="true">virt-specifier-seq</non-terminal>
+        <non-terminal optional="true">brace-or-equal-initializer</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal optional="true">identifier</non-terminal>
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal optional="true">virt-specifier-seq</non-terminal>
+        <terminal>:</terminal>
+        <non-terminal>constant-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>virt-specifier-seq</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>virt-specifier</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>virt-specifier-seq</non-terminal>
+        <non-terminal>virt-specifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>virt-specifier</syntax>
+    <sequence>
+      <alternative>
+        <terminal>override</terminal>
+      </alternative>
+      <alternative>
+        <terminal>final</terminal>
+      </alternative>
+      <alternative>
+        <terminal>new</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>pure-specifier</syntax>
+    <sequence>
+      <alternative>
+        <terminal>=</terminal>
+        <terminal>0</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="class.derived">
+  <rule>
+    <syntax>base-clause</syntax>
+    <sequence>
+      <alternative>
+        <terminal>:</terminal>
+        <non-terminal>base-specifier-list</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>base-specifier-list</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>base-specifier</non-terminal>
+        <terminal optional="true">...</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>base-specifier-list</non-terminal>
+        <terminal>,</terminal>
+        <non-terminal>base-specifier</non-terminal>
+        <terminal optional="true">...</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>base-specifier</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>base-type-specifier</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <terminal>virtual</terminal>
+        <non-terminal optional="true">access-specifier</non-terminal>
+        <non-terminal>base-type-specifier</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>access-specifier</non-terminal>
+        <terminal optional="true">virtual</terminal>
+        <non-terminal>base-type-specifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>class-or-decltype</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal optional="true">::</terminal>
+        <non-terminal optional="true">nested-name-specifier</non-terminal>
+        <non-terminal>class-name</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>decltype-specifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>base-type-specifier</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>class-or-decltype</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>access-specifier</syntax>
+    <sequence>
+      <alternative>
+        <terminal>private</terminal>
+      </alternative>
+      <alternative>
+        <terminal>protected</terminal>
+      </alternative>
+      <alternative>
+        <terminal>public</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="class.conv.fct">
+  <rule>
+    <syntax>conversion-function-id</syntax>
+    <sequence>
+      <alternative>
+        <terminal>operator</terminal>
+        <non-terminal>conversion-type-id</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>conversion-type-id</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>type-specifier-seq</non-terminal>
+        <non-terminal optional="true">conversion-declarator</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>conversion-declarator</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>ptr-operator</non-terminal>
+        <non-terminal optional="true">conversion-declarator</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="class.base.init">
+  <rule>
+    <syntax>ctor-initializer</syntax>
+    <sequence>
+      <alternative>
+        <terminal>:</terminal>
+        <non-terminal>mem-initializer-list</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>mem-initializer-list</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>mem-initializer</non-terminal>
+        <terminal optional="true">...</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>mem-initializer</non-terminal>
+        <terminal>,</terminal>
+        <non-terminal>mem-initializer-list</non-terminal>
+        <terminal optional="true">...</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>mem-initializer</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>mem-initializer-id</non-terminal>
+        <terminal>(</terminal>
+        <non-terminal optional="true">expression-list</non-terminal>
+        <terminal>)</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>mem-initializer-id</non-terminal>
+        <non-terminal>braced-init-list</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>mem-initializer-id</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>class-or-decltype</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="over.oper">
+  <rule issue="189">
+    <syntax>operator-function-id</syntax>
+    <sequence>
+      <alternative>
+        <terminal>operator</terminal>
+        <non-terminal>overloadable-operator</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>operator</terminal>
+        <non-terminal>overloadable-operator</non-terminal>
+        <terminal>&lt;</terminal>
+        <non-terminal optional="true">template-argument-list</non-terminal>
+        <terminal>></terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule issue="189">
+    <syntax>overloadable-operator</syntax>
+    <sequence>
+      <alternative>
+        <terminal>new</terminal>
+      </alternative>
+      <alternative>
+        <terminal>delete</terminal>
+      </alternative>
+      <alternative>
+        <terminal>new</terminal>
+        <terminal>[</terminal>
+        <terminal>]</terminal>
+      </alternative>
+      <alternative>
+        <terminal>delete</terminal>
+        <terminal>[</terminal>
+        <terminal>]</terminal>
+      </alternative>
+      <alternative>
+        <terminal>+</terminal>
+      </alternative>
+      <alternative>
+        <terminal>-</terminal>
+      </alternative>
+      <alternative>
+        <terminal>*</terminal>
+      </alternative>
+      <alternative>
+        <terminal>/</terminal>
+      </alternative>
+      <alternative>
+        <terminal>%</terminal>
+      </alternative>
+      <alternative>
+        <terminal>^</terminal>
+      </alternative>
+      <alternative>
+        <terminal>&amp;</terminal>
+      </alternative>
+      <alternative>
+        <terminal>|</terminal>
+      </alternative>
+      <alternative>
+        <terminal>~</terminal>
+      </alternative>
+      <alternative>
+        <terminal>!</terminal>
+      </alternative>
+      <alternative>
+        <terminal>=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>&lt;</terminal>
+      </alternative>
+      <alternative>
+        <terminal>></terminal>
+      </alternative>
+      <alternative>
+        <terminal>+=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>-=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>*=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>/=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>%=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>^=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>&amp;=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>|=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>&lt;&lt;</terminal>
+      </alternative>
+      <alternative>
+        <terminal>>></terminal>
+      </alternative>
+      <alternative>
+        <terminal>>>=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>&lt;&lt;=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>==</terminal>
+      </alternative>
+      <alternative>
+        <terminal>!=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>&lt;=</terminal>
+      </alternative>
+      <alternative>
+      <terminal>>=</terminal>
+      </alternative>
+      <alternative>
+        <terminal>&amp;&amp;</terminal>
+      </alternative>
+      <alternative>
+        <terminal>||</terminal>
+      </alternative>
+      <alternative>
+        <terminal>++</terminal>
+      </alternative>
+      <alternative>
+        <terminal>--</terminal>
+      </alternative>
+      <alternative>
+        <terminal>,</terminal>
+      </alternative>
+      <alternative>
+        <terminal>->*</terminal>
+      </alternative>
+      <alternative>
+        <terminal>-></terminal>
+      </alternative>
+      <alternative>
+        <terminal>()</terminal>
+      </alternative>
+      <alternative>
+        <terminal>[]</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="over.literal">
+  <rule>
+    <syntax>literal-operator-id</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>operator</terminal>
+        <terminal>""</terminal>
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="temp">
+  <rule>
+    <syntax>template-declaration</syntax>
+    <sequence>
+      <alternative note="C++0x - The export keyword is reserved for future use">
+        <terminal>template</terminal>
+        <terminal>&lt;</terminal>
+        <non-terminal>template-parameter-list</non-terminal>
+        <terminal>></terminal>
+        <non-terminal>declaration</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>template-parameter-list</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>template-parameter</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>template-parameter-list</non-terminal>
+        <terminal>,</terminal>
+        <non-terminal>template-parameter</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="temp.param">
+  <rule>
+    <syntax>template-parameter</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>type-parameter</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>parameter-declaration</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>type-parameter</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>class</terminal>
+        <terminal optional="true">...</terminal>
+        <non-terminal optional="true">identifier</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>class</terminal>
+        <non-terminal optional="true">identifier</non-terminal>
+        <terminal>=</terminal>
+        <non-terminal>type-id</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>typename</terminal>
+        <terminal optional="true">...</terminal>
+        <non-terminal optional="true">identifier</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>typename</terminal>
+        <non-terminal optional="true">identifier</non-terminal>
+        <terminal>=</terminal>
+        <non-terminal>type-id</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>template</terminal>
+        <terminal>&lt;</terminal>
+        <non-terminal>template-parameter-list</non-terminal>
+        <terminal>></terminal>
+        <terminal>class</terminal>
+        <terminal optional="true">...</terminal>
+        <non-terminal optional="true">identifier</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>template</terminal>
+        <terminal>&lt;</terminal>
+        <non-terminal>template-parameter-list</non-terminal>
+        <terminal>></terminal>
+        <terminal>class</terminal>
+        <non-terminal optional="true">identifier</non-terminal>
+        <terminal>=</terminal>
+        <non-terminal>id-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="temp.names">
+  <rule>
+    <syntax>simple-template-id</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>template-name</non-terminal>
+        <terminal>&lt;</terminal>
+        <non-terminal optional="true">template-argument-list</non-terminal>
+        <terminal>></terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>template-id</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>simple-template-id</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>operator-function-id</non-terminal>
+        <terminal>&lt;</terminal>
+        <non-terminal optional="true">template-argument-list</non-terminal>
+        <terminal>></terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>literal-operator-id</non-terminal>
+        <terminal>&lt;</terminal>
+        <non-terminal optional="true">template-argument-list</non-terminal>
+        <terminal>></terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>template-name</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>template-argument-list</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>template-argument</non-terminal>
+        <terminal optional="true">...</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>template-argument-list</non-terminal>
+        <terminal>,</terminal>
+        <non-terminal>template-argument</non-terminal>
+        <terminal optional="true">...</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>template-argument</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>constant-expression</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>type-id</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>id-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="temp.res">
+  <rule>
+    <syntax>typename-specifier</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>typename</terminal>
+        <terminal optional="true">::</terminal>
+        <non-terminal>nested-name-specifier</non-terminal>
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>typename</terminal>
+        <terminal optional="true">::</terminal>
+        <non-terminal>nested-name-specifier</non-terminal>
+        <terminal optional="true">template</terminal>
+        <non-terminal>simple-template-id</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="temp.explicit">
+  <rule>
+    <syntax>explicit-instantiation</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal optional="true">extern</terminal>
+        <terminal>template</terminal>
+        <non-terminal>declaration</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="temp.expl.spec">
+  <rule>
+    <syntax>explicit-specialization</syntax>
+    <sequence>
+      <alternative>
+        <terminal>template</terminal>
+        <terminal>&lt;</terminal>
+        <terminal>></terminal>
+        <non-terminal>declaration</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="except">
+  <rule>
+    <syntax>try-block</syntax>
+    <sequence>
+      <alternative>
+        <terminal>try</terminal>
+        <non-terminal>compound-statement</non-terminal>
+        <non-terminal>handler-seq</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>function-try-block</syntax>
+    <sequence>
+      <alternative note="C++0x">
+      <terminal>try</terminal>
+      <non-terminal optional="true">ctor-initializer</non-terminal>
+      <non-terminal>compound-statement</non-terminal>
+      <non-terminal>handler-seq</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>handler-seq</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>handler</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>handler</non-terminal>
+        <non-terminal>handler-seq</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>handler</syntax>
+    <sequence>
+      <alternative>
+        <terminal>catch</terminal>
+        <terminal>(</terminal>
+        <non-terminal>exception-declaration</non-terminal>
+        <terminal>)</terminal>
+        <non-terminal>compound-statement</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>exception-declaration</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>type-specifier-seq</non-terminal>
+        <non-terminal>declarator</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal optional="true">attribute-specifier-seq</non-terminal>
+        <non-terminal>type-specifier-seq</non-terminal>
+        <non-terminal optional="true">abstract-declarator</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>...</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>throw-expression</syntax>
+    <sequence>
+      <alternative>
+        <terminal>throw</terminal>
+        <non-terminal optional="true">assignment-expression</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="except.spec">
+  <rule>
+    <syntax>exception-specification</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>dynamic-exception-specification</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>noexcept-specification</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>dynamic-exception-specification</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>throw</terminal>
+        <terminal>(</terminal>
+        <non-terminal optional="true">type-id-list</non-terminal>
+        <terminal>)</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>type-id-list</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>type-id</non-terminal>
+        <terminal optional="true">...</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>type-id-list</non-terminal>
+        <terminal>,</terminal>
+        <non-terminal>type-id</non-terminal>
+        <terminal optional="true">...</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>noexcept-specification</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <terminal>noexcept</terminal>
+        <terminal>(</terminal>
+        <non-terminal>constant-expression</non-terminal>
+        <terminal>)</terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>noexcept</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+<section id="cpp">
+  <rule>
+    <syntax>preprocessing-file</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal optional="true">group</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>group</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>group-part</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>group</non-terminal>
+        <non-terminal>group-part</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>group-part</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>if-section</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>control-line</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <non-terminal>text-line</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>#</terminal>
+        <non-terminal>non-directive</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>if-section</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>if-group</non-terminal>
+        <non-terminal optional="true">elif-groups</non-terminal>
+        <non-terminal optional="true">else-group</non-terminal>
+        <non-terminal>endif-line</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>if-group</syntax>
+    <sequence>
+      <alternative>
+        <terminal>#</terminal>
+        <terminal>if</terminal>
+        <non-terminal>constant-expression</non-terminal>
+        <non-terminal>new-line</non-terminal>
+        <non-terminal optional="true">group</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>#</terminal>
+        <terminal>ifdef</terminal>
+        <non-terminal>identifier</non-terminal>
+        <non-terminal>new-line</non-terminal>
+        <non-terminal optional="true">group</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>#</terminal>
+        <terminal>ifndef</terminal>
+        <non-terminal>identifier</non-terminal>
+        <non-terminal>new-line</non-terminal>
+        <non-terminal optional="true">group</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>elif-groups</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>elif-group</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>elif-groups</non-terminal>
+        <non-terminal>elif-group</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>elif-group</syntax>
+    <sequence>
+      <alternative>
+        <terminal>#</terminal>
+        <terminal>elif</terminal>
+        <non-terminal>constant-expression</non-terminal>
+        <non-terminal>new-line</non-terminal>
+        <non-terminal optional="true">group</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>else-group</syntax>
+    <sequence>
+      <alternative>
+        <terminal>#</terminal>
+        <terminal>else</terminal>
+        <non-terminal>new-line</non-terminal>
+        <non-terminal optional="true">group</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>endif-line</syntax>
+    <sequence>
+      <alternative>
+        <terminal>#</terminal>
+        <terminal>endif</terminal>
+        <non-terminal>new-line</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>control-line</syntax>
+    <sequence>
+      <alternative>
+        <terminal>#</terminal>
+        <terminal>include</terminal>
+        <non-terminal>pp-tokens</non-terminal>
+        <non-terminal>new-line</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>#</terminal>
+        <terminal>define</terminal>
+        <non-terminal>identifier</non-terminal>
+        <non-terminal>replacement-list</non-terminal>
+        <non-terminal>new-line</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>#</terminal>
+        <terminal>define</terminal>
+        <non-terminal>identifier</non-terminal>
+        <non-terminal>lparen</non-terminal>
+        <non-terminal optional="true">identifier-list</non-terminal>
+        <terminal>)</terminal>
+        <non-terminal>replacement-list</non-terminal>
+        <non-terminal>new-line</non-terminal>
+      </alternative>
+      <alternative note="C++0x">
+        <terminal>#</terminal>
+        <terminal>define</terminal>
+        <non-terminal>identifier</non-terminal>
+        <non-terminal>lparen</non-terminal>
+        <non-terminal>identifier-list</non-terminal>
+        <terminal>,</terminal>
+        <terminal>...</terminal>
+        <terminal>)</terminal>
+        <non-terminal>replacement-list</non-terminal>
+        <non-terminal>new-line</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>#</terminal>
+        <terminal>undef</terminal>
+        <non-terminal>identifier</non-terminal>
+        <non-terminal>new-line</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>#</terminal>
+        <terminal>line</terminal>
+        <non-terminal>pp-tokens</non-terminal>
+        <non-terminal>new-line</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>#</terminal>
+        <terminal>error</terminal>
+        <non-terminal optional="true">pp-tokens</non-terminal>
+        <non-terminal>new-line</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>#</terminal>
+        <terminal>pragma</terminal>
+        <non-terminal optional="true">pp-tokens</non-terminal>
+        <non-terminal>new-line</non-terminal>
+      </alternative>
+      <alternative>
+        <terminal>#</terminal>
+        <non-terminal>new-line</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>text-line</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal optional="true">pp-tokens</non-terminal>
+        <non-terminal>new-line</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>non-directive</syntax>
+    <sequence>
+      <alternative note="C++0x">
+        <non-terminal>pp-tokens</non-terminal>
+        <non-terminal>new-line</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>lparen</syntax>
+    <sequence>
+      <alternative>
+        <terminal sentence="true">a ( character not immediately preceded by white-space</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>identifier-list</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>identifier-list</non-terminal>
+        <terminal>,</terminal>
+        <non-terminal>identifier</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>replacement-list</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal optional="true">pp-tokens</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>pp-tokens</syntax>
+    <sequence>
+      <alternative>
+        <non-terminal>preprocessing-token</non-terminal>
+      </alternative>
+      <alternative>
+        <non-terminal>pp-tokens</non-terminal>
+        <non-terminal>preprocessing-token</non-terminal>
+      </alternative>
+    </sequence>
+  </rule>
+  <rule>
+    <syntax>new-line</syntax>
+    <sequence>
+      <alternative>
+      <terminal sentence="true">the new-line character</terminal>
+      </alternative>
+    </sequence>
+  </rule>
+</section>
+
+</bnf>
+

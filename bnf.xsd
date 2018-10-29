@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding="utf-8"?>
+<xsd:schema
+  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+  xsi:schemaLocation='http://www.w3.org/2001/XMLSchema
+                      http://www.w3.org/2001/XMLSchema.xsd'
+  xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
+
+  <xsd:element name='bnf' type='BNFType'/>
+
+  <xsd:complexType name='BNFType'>
+    <xsd:sequence>
+      <xsd:element name='section' type='SectionType' maxOccurs='unbounded'/>
+    </xsd:sequence>
+    <xsd:attribute name='version' type='VersionType' use='required'/>
+    <xsd:attribute name='update' type='DateType' use='required'/>
+  </xsd:complexType>
+
+  <xsd:simpleType name='VersionType'>
+    <xsd:restriction base='xsd:string'>
+      <xsd:pattern value='\d+\.\d+'/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name='DateType'>
+    <xsd:restriction base='xsd:string'>
+      <xsd:pattern value='[1-3]?\d-[A-Z][a-z][a-z]-\d\d\d\d'/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name='SectionType'>
+    <xsd:sequence>
+      <xsd:element name='rule' type='RuleType' maxOccurs='unbounded'/>
+    </xsd:sequence>
+    <xsd:attribute name='id' type='SectionIDType' use='required'/>
+  </xsd:complexType>
+
+  <xsd:simpleType name='SectionIDType'>
+    <xsd:restriction base='xsd:string'>
+      <xsd:pattern value='[a-z]+(\.[a-z]+)*'/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name='RuleType'>
+    <xsd:sequence>
+      <xsd:element name='syntax' type='NonTerminalNameType'/>
+      <xsd:element name='sequence' type='SequenceType'/>
+    </xsd:sequence>
+    <xsd:attribute name='issue' type='xsd:unsignedShort' use='optional'/>
+  </xsd:complexType>
+
+  <xsd:simpleType name='NonTerminalNameType'>
+    <xsd:restriction base='xsd:string'>
+      <xsd:pattern value='([_a-z])+(\-[_a-z]+)*'/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name='SequenceType'>
+    <xsd:sequence>
+      <xsd:element name='alternative' type='AlternativeType' maxOccurs='unbounded'/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name='AlternativeType'>
+    <xsd:choice maxOccurs='unbounded'>
+      <xsd:element name='terminal' type='TerminalType'/>
+      <xsd:element name='non-terminal' type='NonTerminalType'/>
+    </xsd:choice>
+    <xsd:attribute name='issue' type='xsd:unsignedShort' use='optional'/>
+    <xsd:attribute name='note' type='xsd:string' use='optional'/>
+  </xsd:complexType>
+
+  <xsd:simpleType name='BooleanType'>
+    <xsd:restriction base='xsd:string'>
+      <xsd:enumeration value='true'/>
+      <xsd:enumeration value='false'/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name='TerminalType'>
+    <xsd:simpleContent>
+      <xsd:extension base='xsd:string'>
+        <xsd:attribute name='optional' type='BooleanType' default='false'/>
+        <xsd:attribute name='sentence' type='BooleanType' default='false'/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+
+  <xsd:complexType name='NonTerminalType'>
+    <xsd:simpleContent>
+      <xsd:extension base='NonTerminalNameType'>
+        <xsd:attribute name='optional' type='BooleanType' default='false'/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+
+</xsd:schema>
+
