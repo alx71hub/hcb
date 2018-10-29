@@ -83,7 +83,7 @@
   <body>
     <a name='TOP'><h1>Hyperlinked C++ BNF Grammar</h1></a>
     <div class='Credits'> 
-	    <p>By <a href='https://alx71hub.github.io/hcb/'>Alessio Marchetti</a></p>
+	    <p>By <a href='https://github.com/alx71hub/hcb'>Alessio Marchetti</a></p>
       <p>Version <xsl:value-of select='@version'/></p>
       <p>Last updated: <xsl:value-of select='@update'/></p>
     </div>
@@ -94,7 +94,7 @@
     <p>If you are a C++ developer then you sometimes need to have a look at the C++ BNF grammar. At least I do. </p>
     <p>But reading a set of BNF rules is difficult since you have to jump from one rule to the next one, maybe pages away from it. </p>
     <p>With this document I tried to make it easier to navigate among the BNF rules of the C++ language grammar; you can find here a hyperlinked graph whose nodes are the BNF productions of the C++ language grammar. </p>
-    <p>If you find errors or inconsistencies, please <a href='http://hcb.alessio.marchetti.name/'>drop me a note</a>.</p>
+    <p>If you find errors or inconsistencies, please <a href='https://github.com/alx71hub/hcb'>log an issue</a>.</p>
 
     <h3>The BNF non-terminal for a C++ translation unit (translation-unit) is defined <a href='#basic.link'>here</a>.</h3>
     <h3>The BNF non-terminal for a C++ preprocessing file (preprocessing-file) is defined <a href='#cpp'>here</a>.</h3>
