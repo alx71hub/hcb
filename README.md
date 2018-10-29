@@ -2,10 +2,10 @@
 
 
 ## Which files are contained in this package?
-README.md: this file
-bnf.xml: C++ grammar description in valid XML (according to bnf.xsd)
-bnf.xsd: XML Schema used to validate the grammar described in bnf.xml
-html.xsl: XSLT style sheet to render the hyperlinked grammar to HTML
+* README.md: this file
+* bnf.xml: C++ grammar description in valid XML (according to bnf.xsd)
+* bnf.xsd: XML Schema used to validate the grammar described in bnf.xml
+* html.xsl: XSLT style sheet to render the hyperlinked grammar to HTML
 
 
 ## How do I contribute to this project?
