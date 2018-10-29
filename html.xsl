@@ -83,7 +83,7 @@
   <body>
     <a name='TOP'><h1>Hyperlinked C++ BNF Grammar</h1></a>
     <div class='Credits'> 
-      <p>By <a href='http://hcb.alessio.marchetti.name/'>Alessio Marchetti</a></p>
+	    <p>By <a href='https://alx71hub.github.io/hcb/'>Alessio Marchetti</a></p>
       <p>Version <xsl:value-of select='@version'/></p>
       <p>Last updated: <xsl:value-of select='@update'/></p>
     </div>
