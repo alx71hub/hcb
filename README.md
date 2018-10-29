@@ -9,7 +9,7 @@
 
 
 ## How do I contribute to this project?
-From the technical perspective you should understand the following concepts:
+From the technical perspective you should grasp the following concepts:
 * XML
 * XML Schema
 * XSL Transformation
