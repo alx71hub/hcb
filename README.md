@@ -23,14 +23,14 @@ Given the knowledge above, you should be able to:
 
 ## How do I validate bnf.xml?
 On a Debian system you can validate bnf.xml using xmllint:
-	xmllint --schema bnf.xsd bnf.xml --noout
+    xmllint --schema bnf.xsd bnf.xml --noout
 If you plan to contribute to this project, it is assumed that you are able to
 map the command above to any other operating system and platform.
 
 
 ## How do I generate the HTML rendition of this BNF?
 On a Debian system you can transform bnf.xml to HTML using xsltproc:
-	xsltproc -o bnf.html html.xsl bnf.xml
+    xsltproc -o bnf.html html.xsl bnf.xml
 The command above generates the HTML rendition of this BNF in file bnf.html
 If you plan to contribute to this project, it is assumed that you are able to
 map the command above to any other operating system and platform.
