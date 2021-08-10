@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bnf
-  version="3.4"
+  version="3.5"
   update="10-Aug-2021"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="bnf.xsd">
@@ -3565,7 +3565,7 @@
       <alternative note="C++0x">
         <terminal>alignas</terminal>
         <terminal>(</terminal>
-        <non-terminal>alignment-expression</non-terminal>
+        <non-terminal>assignment-expression</non-terminal>
         <terminal optional="true">...</terminal>
         <terminal>)</terminal>
       </alternative>
