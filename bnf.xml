@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bnf
-  version="3.3"
-  update="29-Oct-2018"
+  version="3.4"
+  update="10-Aug-2021"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="bnf.xsd">
 
@@ -2754,8 +2754,10 @@
   <rule>
     <syntax>for-range-initializer</syntax>
     <sequence>
-      <alternative note="C++0x">
+      <alternative>
         <non-terminal>expression</non-terminal>
+      </alternative>
+      <alternative>
         <non-terminal>braced-init-list</non-terminal>
       </alternative>
     </sequence>
