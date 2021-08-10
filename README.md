@@ -4,8 +4,8 @@ See the [hyperlinked BNF here](https://alx71hub.github.io/hcb/).
 
 ## Which files are contained in this package?
 * `README.md`: this file
-* `bnf.xml`: C++ grammar description in valid XML (according to bnf.xsd)
-* `bnf.xsd`: XML Schema used to validate the grammar described in bnf.xml
+* `bnf.xml`: C++ grammar description in valid XML (according to `bnf.xsd`)
+* `bnf.xsd`: XML Schema used to validate the grammar described in `bnf.xml`
 * `html.xsl`: XSLT style sheet to render the hyperlinked grammar to HTML
 
 
@@ -31,11 +31,11 @@ map the command above to any other operating system and platform.
 
 
 ## How do I generate the HTML rendition of this BNF?
-On a Debian system you can transform bnf.xml to HTML using xsltproc:
+On a Debian system you can transform `bnf.xml` to HTML using `xsltproc`:
 ```
   xsltproc -o bnf.html html.xsl bnf.xml
 ```
-The command above generates the HTML rendition of this BNF in file bnf.html
+The command above generates the HTML representation of this BNF into file `bnf.html`.
 If you plan to contribute to this project, it is assumed that you are able to
 map the command above to any other operating system and platform.
 
