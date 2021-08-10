@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bnf
-  version="3.5"
+  version="3.6"
   update="10-Aug-2021"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="bnf.xsd">
@@ -4148,9 +4148,6 @@
     <sequence>
       <alternative note="C++0x">
         <terminal>final</terminal>
-      </alternative>
-      <alternative note="C++0x">
-        <terminal>explicit</terminal>
       </alternative>
     </sequence>
   </rule>
